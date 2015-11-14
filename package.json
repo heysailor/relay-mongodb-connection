@@ -1,0 +1,16 @@
+{
+  "name": "mongodbconnection",
+  "version": "0.1.0-dev",
+  "description": "MongoDB connection for Relay",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "relay",
+    "graphql",
+    "mongodb"
+  ],
+  "author": "Mikael Berg",
+  "license": "ISC"
+}
