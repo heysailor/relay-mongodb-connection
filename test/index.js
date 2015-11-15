@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { base64, unbase64, connectionFromMongo } from '../index';
+import { base64, unbase64, connectionFromMongoCursor } from '../index';
 import { connect } from './db';
 
 const COL = 'letters';
@@ -33,7 +33,7 @@ describe('connectionFromArray()', () => {
 
   describe('basic slicing', () => {
     it('returns all elements without filters', async () => {
-      const c = await connectionFromMongo(findAll);
+      const c = await connectionFromMongoCursor(findAll);
       expect(c).to.deep.equal({
         edges: [
           {
@@ -67,7 +67,7 @@ describe('connectionFromArray()', () => {
     });
 
     it('respects a smaller first', async () => {
-      const c = await connectionFromMongo(findAll, { first: 2 });
+      const c = await connectionFromMongoCursor(findAll, { first: 2 });
       expect(c).to.deep.equal({
         edges: [
           {
@@ -89,7 +89,7 @@ describe('connectionFromArray()', () => {
     });
 
     it('respects an overly large first', async () => {
-      const c = await connectionFromMongo(findAll, { first: 10 });
+      const c = await connectionFromMongoCursor(findAll, { first: 10 });
       expect(c).to.deep.equal({
         edges: [
           {
@@ -123,7 +123,7 @@ describe('connectionFromArray()', () => {
     });
 
     it('respects a smaller last', async () => {
-      const c = await connectionFromMongo(findAll, { last: 2 });
+      const c = await connectionFromMongoCursor(findAll, { last: 2 });
       expect(c).to.deep.equal({
         edges: [
           {
@@ -145,7 +145,7 @@ describe('connectionFromArray()', () => {
     });
 
     it('respects an overly large last', async () => {
-      const c = await connectionFromMongo(findAll, { last: 10 });
+      const c = await connectionFromMongoCursor(findAll, { last: 10 });
       expect(c).to.deep.equal({
         edges: [
           {
@@ -181,7 +181,7 @@ describe('connectionFromArray()', () => {
 
   describe('pagination', () => {
     it('respects first and after', async () => {
-      const c = await connectionFromMongo(findAll, {
+      const c = await connectionFromMongoCursor(findAll, {
         first: 2, after: 'bW9uZ29kYmNvbm5lY3Rpb246MQ==',
       });
       expect(c).to.deep.equal({
@@ -205,7 +205,7 @@ describe('connectionFromArray()', () => {
     });
 
     it('respects first and after with long first', async () => {
-      const c = await connectionFromMongo(findAll, {
+      const c = await connectionFromMongoCursor(findAll, {
         first: 10, after: 'bW9uZ29kYmNvbm5lY3Rpb246MQ==',
       });
       expect(c).to.deep.equal({
@@ -233,7 +233,7 @@ describe('connectionFromArray()', () => {
     });
 
     it('respects last and before', async () => {
-      const c = await connectionFromMongo(findAll, {
+      const c = await connectionFromMongoCursor(findAll, {
         last: 2, before: 'bW9uZ29kYmNvbm5lY3Rpb246Mw==',
       });
       expect(c).to.deep.equal({
@@ -257,7 +257,7 @@ describe('connectionFromArray()', () => {
     });
 
     it('respects last and before with long last', async () => {
-      const c = await connectionFromMongo(findAll, {
+      const c = await connectionFromMongoCursor(findAll, {
         last: 10, before: 'bW9uZ29kYmNvbm5lY3Rpb246Mw==',
       });
       expect(c).to.deep.equal({
@@ -285,7 +285,7 @@ describe('connectionFromArray()', () => {
     });
 
     it('respects first and after and before, too few', async () => {
-      const c = await connectionFromMongo(findAll, {
+      const c = await connectionFromMongoCursor(findAll, {
         first: 2,
         after: 'bW9uZ29kYmNvbm5lY3Rpb246MA==',
         before: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
@@ -311,7 +311,7 @@ describe('connectionFromArray()', () => {
     });
 
     it('respects first and after and before, too many', async () => {
-      const c = await connectionFromMongo(findAll, {
+      const c = await connectionFromMongoCursor(findAll, {
         first: 4,
         after: 'bW9uZ29kYmNvbm5lY3Rpb246MA==',
         before: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
@@ -341,7 +341,7 @@ describe('connectionFromArray()', () => {
     });
 
     it('respects first and after and before, exactly right', async () => {
-      const c = await connectionFromMongo(findAll, {
+      const c = await connectionFromMongoCursor(findAll, {
         first: 3,
         after: 'bW9uZ29kYmNvbm5lY3Rpb246MA==',
         before: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
@@ -371,7 +371,7 @@ describe('connectionFromArray()', () => {
     });
 
     it('respects last and after and before, too few', async () => {
-      const c = await connectionFromMongo(findAll, {
+      const c = await connectionFromMongoCursor(findAll, {
         last: 2,
         after: 'bW9uZ29kYmNvbm5lY3Rpb246MA==',
         before: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
@@ -397,7 +397,7 @@ describe('connectionFromArray()', () => {
     });
 
     it('respects last and after and before, too many', async () => {
-      const c = await connectionFromMongo(findAll, {
+      const c = await connectionFromMongoCursor(findAll, {
         last: 4, // different from graphql-relay-js
         after: 'bW9uZ29kYmNvbm5lY3Rpb246MA==',
         before: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
@@ -427,7 +427,7 @@ describe('connectionFromArray()', () => {
     });
 
     it('respects last and after and before, exactly right', async () => {
-      const c = await connectionFromMongo(findAll, {
+      const c = await connectionFromMongoCursor(findAll, {
         last: 3,
         after: 'bW9uZ29kYmNvbm5lY3Rpb246MA==',
         before: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
@@ -459,7 +459,7 @@ describe('connectionFromArray()', () => {
 
   describe('cursor edge cases', () => {
     it('returns no elements if first is 0', async () => {
-      const c = await connectionFromMongo(findAll, { first: 0 });
+      const c = await connectionFromMongoCursor(findAll, { first: 0 });
       expect(c).to.deep.equal({
         edges: [],
         pageInfo: {
@@ -472,7 +472,7 @@ describe('connectionFromArray()', () => {
     });
 
     it('returns all elements if cursors are invalid', async () => {
-      const c = await connectionFromMongo(findAll, {
+      const c = await connectionFromMongoCursor(findAll, {
         before: 'invalid',
         after: 'invalid',
       });
@@ -509,7 +509,7 @@ describe('connectionFromArray()', () => {
     });
 
     it('returns all elements if cursors are on the outside', async () => {
-      const c = await connectionFromMongo(findAll, {
+      const c = await connectionFromMongoCursor(findAll, {
         before: 'bW9uZ29kYmNvbm5lY3Rpb246Ng==',
         after: 'bW9uZ29kYmNvbm5lY3Rpb246LTE=',
       });
@@ -546,7 +546,7 @@ describe('connectionFromArray()', () => {
     });
 
     it('returns no elements if cursors cross', async () => {
-      const c = await connectionFromMongo(findAll, {
+      const c = await connectionFromMongoCursor(findAll, {
         before: 'bW9uZ29kYmNvbm5lY3Rpb246Mg==',
         after: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
       });
