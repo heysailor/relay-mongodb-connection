@@ -6,6 +6,7 @@ const COL = 'letters';
 
 describe('connectionFromArray()', () => {
   let db;
+  let findAll;
 
   before(async (done) => {
     try {
@@ -22,16 +23,15 @@ describe('connectionFromArray()', () => {
     done();
   });
 
+  beforeEach(() => {
+    findAll = db.collection(COL).find({});
+  });
+
   after(() => {
     db.close();
   });
 
   describe('basic slicing', () => {
-    let findAll;
-    beforeEach(() => {
-      findAll = db.collection(COL).find({});
-    });
-
     it('returns all elements without filters', async () => {
       const c = await connectionFromMongo(findAll);
       expect(c).to.deep.equal({
@@ -180,8 +180,28 @@ describe('connectionFromArray()', () => {
   });
 
   describe('pagination', () => {
-    it('respects first and after', () => {
-      assert(false, 'Not yet implemented');
+    it('respects first and after', async () => {
+      const c = await connectionFromMongo(findAll, {
+        first: 2, after: 'bW9uZ29kYmNvbm5lY3Rpb246MQ==',
+      });
+      expect(c).to.deep.equal({
+        edges: [
+          {
+            node: { letter: 'C', _id: 'letter_C' },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246Mg==',
+          },
+          {
+            node: { letter: 'D', _id: 'letter_D' },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246Mw==',
+          },
+        ],
+        pageInfo: {
+          startCursor: 'bW9uZ29kYmNvbm5lY3Rpb246Mg==',
+          endCursor: 'bW9uZ29kYmNvbm5lY3Rpb246Mw==',
+          hasPreviousPage: false,
+          hasNextPage: true,
+        },
+      });
     });
 
     it('respects first and after with long first', () => {

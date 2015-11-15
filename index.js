@@ -38,37 +38,29 @@ export function offsetToCursor(offset) {
 export async function connectionFromMongo(inMongoCursor, args = {}) {
   const mongodbCursor = inMongoCursor.clone();
   const { after, before, first, last } = args;
-  const sliceStart = 0;
-  const arrayLength = await mongodbCursor.count();
-  const sliceEnd = sliceStart + arrayLength;
-  const beforeOffset = getOffsetWithDefault(before, arrayLength);
+  const count = await mongodbCursor.count();
+  const beforeOffset = getOffsetWithDefault(before, count);
   const afterOffset = getOffsetWithDefault(after, -1);
 
-  let startOffset = Math.max(
-    sliceStart - 1,
-    afterOffset,
-    -1
-  ) + 1;
-  let endOffset = Math.min(
-    sliceEnd,
-    beforeOffset,
-    arrayLength
-  );
+  let startOffset = Math.max(-1, afterOffset) + 1;
+  let endOffset = Math.min(count, beforeOffset);
+
   if (first !== undefined) {
-    endOffset = Math.min(
-      endOffset,
-      startOffset + first
-    );
+    endOffset = Math.min(endOffset, startOffset + first);
   }
   if (last !== undefined) {
-    startOffset = Math.max(
-      startOffset,
-      endOffset - last
-    );
+    startOffset = Math.max(startOffset, endOffset - last);
   }
 
-  const skip = Math.max(startOffset - sliceStart, 0);
-  const limit = arrayLength - (sliceEnd - endOffset);
+  // console.log('startOffset', startOffset);
+  // console.log('endOffset', endOffset);
+  // console.log('beforeOffset', beforeOffset);
+  // console.log('afterOffset', afterOffset);
+
+  const skip = Math.max(startOffset, 0);
+  const limit = endOffset - startOffset;
+
+  // console.log(`Skip ${skip}, limit ${limit}`);
 
   // If supplied slice is too large, trim it down before mapping over it.
   mongodbCursor.skip(skip);
@@ -83,14 +75,15 @@ export async function connectionFromMongo(inMongoCursor, args = {}) {
 
   const firstEdge = edges[0];
   const lastEdge = edges[edges.length - 1];
-
+  const lowerBound = after ? (afterOffset + 1) : 0;
+  const upperBound = before ? beforeOffset : count;
   return {
     edges,
     pageInfo: {
       startCursor: firstEdge ? firstEdge.cursor : null,
       endCursor: lastEdge ? lastEdge.cursor : null,
-      hasNextPage: skip + limit < arrayLength,
-      hasPreviousPage: skip > 0,
+      hasPreviousPage: last !== null ? startOffset > lowerBound : false,
+      hasNextPage: first !== null ? endOffset < upperBound : false,
     },
   };
 }
