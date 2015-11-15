@@ -66,8 +66,26 @@ describe('connectionFromArray()', () => {
       });
     });
 
-    it('respects a smaller first', () => {
-      assert(false, 'Not yet implemented');
+    it('respects a smaller first', async () => {
+      const c = await connectionFromMongo(findAll, { first: 2 });
+      expect(c).to.deep.equal({
+        edges: [
+          {
+            node: { letter: 'A', _id: 'letter_A' },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246MA==',
+          },
+          {
+            node: { letter: 'B', _id: 'letter_B' },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246MQ==',
+          },
+        ],
+        pageInfo: {
+          startCursor: 'bW9uZ29kYmNvbm5lY3Rpb246MA==',
+          endCursor: 'bW9uZ29kYmNvbm5lY3Rpb246MQ==',
+          hasPreviousPage: false,
+          hasNextPage: true,
+        },
+      });
     });
 
     it('respects an overly large first', () => {
