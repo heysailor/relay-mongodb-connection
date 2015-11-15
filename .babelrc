@@ -1,7 +1,3 @@
 {
-  "stage": 0,
-  "optional": "runtime",
-  "rules": {
-    "strict": 0,
-  }
+  "stage": 0
 }
