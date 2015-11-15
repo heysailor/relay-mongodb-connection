@@ -232,8 +232,28 @@ describe('connectionFromArray()', () => {
       });
     });
 
-    it('respects last and before', () => {
-      assert(false, 'Not yet implemented');
+    it('respects last and before', async () => {
+      const c = await connectionFromMongo(findAll, {
+        last: 2, before: 'bW9uZ29kYmNvbm5lY3Rpb246Mw==',
+      });
+      expect(c).to.deep.equal({
+        edges: [
+          {
+            node: { letter: 'B', _id: 'letter_B' },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246MQ==',
+          },
+          {
+            node: { letter: 'C', _id: 'letter_C' },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246Mg==',
+          },
+        ],
+        pageInfo: {
+          startCursor: 'bW9uZ29kYmNvbm5lY3Rpb246MQ==',
+          endCursor: 'bW9uZ29kYmNvbm5lY3Rpb246Mg==',
+          hasPreviousPage: true,
+          hasNextPage: false,
+        },
+      });
     });
 
     it('respects last and before with long last', () => {
