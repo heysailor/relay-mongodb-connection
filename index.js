@@ -52,15 +52,8 @@ export async function connectionFromMongo(inMongoCursor, args = {}) {
     startOffset = Math.max(startOffset, endOffset - last);
   }
 
-  // console.log('startOffset', startOffset);
-  // console.log('endOffset', endOffset);
-  // console.log('beforeOffset', beforeOffset);
-  // console.log('afterOffset', afterOffset);
-
   const skip = Math.max(startOffset, 0);
   const limit = endOffset - startOffset;
-
-  // console.log(`Skip ${skip}, limit ${limit}`);
 
   // If supplied slice is too large, trim it down before mapping over it.
   mongodbCursor.skip(skip);
@@ -77,7 +70,8 @@ export async function connectionFromMongo(inMongoCursor, args = {}) {
   const firstEdge = edges[0];
   const lastEdge = edges[edges.length - 1];
   const lowerBound = after ? (afterOffset + 1) : 0;
-  const upperBound = before ? beforeOffset : count;
+  const upperBound = before ? Math.min(beforeOffset, count) : count;
+
   return {
     edges,
     pageInfo: {
