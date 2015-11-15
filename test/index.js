@@ -88,11 +88,41 @@ describe('connectionFromArray()', () => {
       });
     });
 
-    it('respects an overly large first', () => {
-      assert(false, 'Not yet implemented');
+    it('respects an overly large first', async () => {
+      const c = await connectionFromMongo(findAll, { first: 10 });
+      expect(c).to.deep.equal({
+        edges: [
+          {
+            node: { letter: 'A', _id: 'letter_A' },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246MA==',
+          },
+          {
+            node: { letter: 'B', _id: 'letter_B' },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246MQ==',
+          },
+          {
+            node: { letter: 'C', _id: 'letter_C' },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246Mg==',
+          },
+          {
+            node: { letter: 'D', _id: 'letter_D' },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246Mw==',
+          },
+          {
+            node: { letter: 'E', _id: 'letter_E' },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
+          },
+        ],
+        pageInfo: {
+          startCursor: 'bW9uZ29kYmNvbm5lY3Rpb246MA==',
+          endCursor: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
+          hasPreviousPage: false,
+          hasNextPage: false,
+        },
+      });
     });
 
-    it('respects a smaller last', () => {
+    it('respects a smaller last', async () => {
       assert(false, 'Not yet implemented');
     });
 
