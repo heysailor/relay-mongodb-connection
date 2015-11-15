@@ -204,8 +204,32 @@ describe('connectionFromArray()', () => {
       });
     });
 
-    it('respects first and after with long first', () => {
-      assert(false, 'Not yet implemented');
+    it('respects first and after with long first', async () => {
+      const c = await connectionFromMongo(findAll, {
+        first: 10, after: 'bW9uZ29kYmNvbm5lY3Rpb246MQ==',
+      });
+      expect(c).to.deep.equal({
+        edges: [
+          {
+            node: { letter: 'C', _id: 'letter_C' },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246Mg==',
+          },
+          {
+            node: { letter: 'D', _id: 'letter_D' },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246Mw==',
+          },
+          {
+            node: { letter: 'E', _id: 'letter_E' },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
+          },
+        ],
+        pageInfo: {
+          startCursor: 'bW9uZ29kYmNvbm5lY3Rpb246Mg==',
+          endCursor: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
+          hasPreviousPage: false,
+          hasNextPage: false,
+        },
+      });
     });
 
     it('respects last and before', () => {
