@@ -1,7 +1,30 @@
 import { assert, expect } from 'chai';
 import { base64, unbase64 } from '../index';
+import { connect } from './db';
+
+const COL = 'letters';
 
 describe('connectionFromArray()', () => {
+  let db;
+
+  before(async (done) => {
+    try {
+      db = await connect();
+    } catch (e) {
+      done(e);
+    }
+
+    await db.collection(COL).insertMany(
+      ['A', 'B', 'C', 'D', 'E'].map(letter => ({ letter }))
+    );
+
+    done();
+  });
+
+  after(() => {
+    db.close();
+  });
+
   describe('basic slicing', () => {
     it('returns all elements without filters', () => {
       assert(false, 'Not yet implemented');
