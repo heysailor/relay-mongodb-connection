@@ -15,7 +15,6 @@ describe('connectionFromArray()', () => {
       done(e);
     }
 
-    await db.collection(COL).drop();
     await db.collection(COL).insertMany(
       ['A', 'B', 'C', 'D', 'E'].map(letter => ({ letter, _id: `letter_${letter}` }))
     );
@@ -27,7 +26,8 @@ describe('connectionFromArray()', () => {
     findAll = db.collection(COL).find({});
   });
 
-  after(() => {
+  after(async () => {
+    await db.collection(COL).drop();
     db.close();
   });
 
