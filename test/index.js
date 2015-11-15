@@ -508,12 +508,57 @@ describe('connectionFromArray()', () => {
       });
     });
 
-    it('returns all elements if cursors are on the outside', () => {
-      assert(false, 'Not yet implemented');
+    it('returns all elements if cursors are on the outside', async () => {
+      const c = await connectionFromMongo(findAll, {
+        before: 'bW9uZ29kYmNvbm5lY3Rpb246Ng==',
+        after: 'bW9uZ29kYmNvbm5lY3Rpb246LTE=',
+      });
+      expect(c).to.deep.equal({
+        edges: [
+          {
+            node: { letter: 'A', _id: 'letter_A' },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246MA==',
+          },
+          {
+            node: { letter: 'B', _id: 'letter_B' },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246MQ==',
+          },
+          {
+            node: { letter: 'C', _id: 'letter_C' },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246Mg==',
+          },
+          {
+            node: { letter: 'D', _id: 'letter_D' },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246Mw==',
+          },
+          {
+            node: { letter: 'E', _id: 'letter_E' },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
+          },
+        ],
+        pageInfo: {
+          startCursor: 'bW9uZ29kYmNvbm5lY3Rpb246MA==',
+          endCursor: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
+          hasPreviousPage: false,
+          hasNextPage: false,
+        },
+      });
     });
 
-    it('returns no elements if cursors cross', () => {
-      assert(false, 'Not yet implemented');
+    it('returns no elements if cursors cross', async () => {
+      const c = await connectionFromMongo(findAll, {
+        before: 'bW9uZ29kYmNvbm5lY3Rpb246Mg==',
+        after: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
+      });
+      expect(c).to.deep.equal({
+        edges: [],
+        pageInfo: {
+          startCursor: null,
+          endCursor: null,
+          hasPreviousPage: false,
+          hasNextPage: false,
+        },
+      });
     });
   });
 
