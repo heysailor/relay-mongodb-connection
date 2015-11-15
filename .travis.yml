@@ -8,4 +8,11 @@ services:
 env:
   - MONGO_CONNECTION_STRING="mongodb://localhost/test"
 before_script:
-  - sleep 15
+    - |
+      echo "Testing MongoDB connection...";tries=4;
+      i=0;
+      while [ $i -lt $tries ]; do fail=$(mongo --eval db 2>&1 >/dev/null | grep "connect failed");
+        if [ "$fail" ] && [ $[ $i+1 ] -eq $tries ] ; then echo "Error: Could not connect to mongodb"; exit 1;
+        elif [ "$fail" ]; then sleep 3; i=$[ $i+1 ];
+        else echo "OK"; i=$tries; fi;
+      done
