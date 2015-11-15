@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "4.1"
+  - "4.0"
+  - "0.12"
+services:
+  - mongodb
+env:
+  - MONGO_CONNECTION_STRING="mongodb://127.0.0.1/test"
