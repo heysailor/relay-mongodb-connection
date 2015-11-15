@@ -1,4 +1,4 @@
-import { assert, expect } from 'chai';
+import { expect } from 'chai';
 import { base64, unbase64, connectionFromMongo } from '../index';
 import { connect } from './db';
 
