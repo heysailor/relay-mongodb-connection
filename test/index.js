@@ -458,8 +458,17 @@ describe('connectionFromArray()', () => {
   });
 
   describe('cursor edge cases', () => {
-    it('returns no elements if first is 0', () => {
-      assert(false, 'Not yet implemented');
+    it('returns no elements if first is 0', async () => {
+      const c = await connectionFromMongo(findAll, { first: 0 });
+      expect(c).to.deep.equal({
+        edges: [],
+        pageInfo: {
+          startCursor: null,
+          endCursor: null,
+          hasPreviousPage: false,
+          hasNextPage: true,
+        },
+      });
     });
 
     it('returns all elements if cursors are invalid', () => {

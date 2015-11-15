@@ -66,7 +66,8 @@ export async function connectionFromMongo(inMongoCursor, args = {}) {
   mongodbCursor.skip(skip);
   mongodbCursor.limit(limit);
 
-  const slice = await mongodbCursor.toArray();
+  // Short circuit if limit is 0; in that case, mongodb doesn't limit at all
+  const slice = limit === 0 ? [] : await mongodbCursor.toArray();
 
   const edges = slice.map((value, index) => ({
     cursor: offsetToCursor(startOffset + index),
