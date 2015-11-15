@@ -88,10 +88,3 @@ export async function connectionFromMongo(inMongoCursor, args = {}) {
     },
   };
 }
-
-// /**
-//  * Return the cursor associated with an object in an array
-//  */
-// export function cursorForObjectInConnection(data, object) {
-//   // NYI
-// }
