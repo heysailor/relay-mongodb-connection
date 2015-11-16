@@ -75,6 +75,20 @@ export const GraphQLUser = new GraphQLObjectType({
 
 See [CHANGELOG.md](CHANGELOG.md)
 
+## Testing
+
+Set a MongoDB connection string as environment variable:
+
+```sh
+export MONGO_CONNECTION_STRING=mongodb://192.168.99.100/mongodbconnection
+```
+
+Then run tests
+
+```sh
+npm test
+```
+
 ## License
 
 MIT © [Mikael Berg](https://github.com/mikberg)
