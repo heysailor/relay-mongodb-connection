@@ -1,8 +1,12 @@
 {
-  "name": "mongodbconnection",
+  "name": "relay-mongodb-connection",
   "version": "0.1.0-dev",
   "description": "MongoDB connection for Relay",
   "main": "lib/index.js",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/mikberg/relay-mongodb-connection.git"
+  },
   "scripts": {
     "compile": "mkdir -p lib && babel index.js --out-file lib/index.js",
     "prepublish": "npm run compile",
@@ -16,7 +20,7 @@
     "mongodb"
   ],
   "author": "Mikael Berg",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "babel": "^5.8.34",
     "babel-core": "^5.8.34",
