@@ -4,7 +4,7 @@
   "description": "MongoDB connection for Relay",
   "main": "lib/index.js",
   "scripts": {
-    "compile": "babel index.js --out-file lib/index.js",
+    "compile": "mkdir -p lib && babel index.js --out-file lib/index.js",
     "prepublish": "npm run compile",
     "test": "mocha --compilers js:babel-core/register",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --reporter spec",
