@@ -6,6 +6,6 @@ node_js:
 services:
   - mongodb
 env:
-  - MONGO_CONNECTION_STRING="mongodb://127.0.0.1/test"
+  - MONGO_CONNECTION_STRING="mongodb://localhost/mongoconnection"
 before_script:
   - sleep 15
