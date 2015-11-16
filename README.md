@@ -71,6 +71,10 @@ export const GraphQLUser = new GraphQLObjectType({
 
 `connectionFromMongoCursor` automatically skips and limits the MongoDB Cursor so that only the necessary documents are retrieved from the database.
 
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md)
+
 ## License
 
 MIT © [Mikael Berg](https://github.com/mikberg)
