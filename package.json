@@ -1,6 +1,6 @@
 {
   "name": "relay-mongodb-connection",
-  "version": "0.1.0-dev",
+  "version": "1.0.0",
   "description": "MongoDB connection for Relay",
   "main": "lib/index.js",
   "repository" : {
