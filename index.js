@@ -35,7 +35,7 @@ export function offsetToCursor(offset) {
  * object for use in GraphQL. It uses array offsets as pagination, so pagiantion
  * will work only if the data set is satic.
  */
-export async function connectionFromMongoCursor(inMongoCursor, args = {}) {
+export default async function connectionFromMongoCursor(inMongoCursor, args = {}) {
   const mongodbCursor = inMongoCursor.clone();
   const { after, before, first, last } = args;
   const count = await mongodbCursor.count();

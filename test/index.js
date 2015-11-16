@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { base64, unbase64, connectionFromMongoCursor } from '../index';
+import connectionFromMongoCursor, { base64, unbase64 } from '../index';
 import { connect } from './db';
 
 const COL = 'letters';
