@@ -9,3 +9,5 @@ env:
   - MONGO_CONNECTION_STRING="mongodb://localhost/mongoconnection"
 before_script:
   - sleep 15
+script: "npm run test-travis"
+after_script: "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
