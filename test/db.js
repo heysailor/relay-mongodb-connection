@@ -1,5 +1,5 @@
 import { MongoClient } from 'mongodb';
 
 export const connect = async () => {
-  return MongoClient.connect('mongodb://localhost/lp');
+  return MongoClient.connect(process.env.MONGO_CONNECTION_STRING);
 };
