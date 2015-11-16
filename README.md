@@ -12,6 +12,33 @@ npm install --save relay-mongodb-connection
 
 Give it a cursor from [mongodb](https://www.npmjs.com/package/mongodb), and it handles pagination int he same way [graphql-relay](https://github.com/graphql/graphql-relay-js/blob/master/src/connection/arrayconnection.js) does for arrays.
 
+### At a glance
+
+Pass it a MongoDB cursor and `connectionArgs`, and it's happy.
+
+```js
+async resolve(obj, { ...args }) {
+  return await connectionFromMongoCursor(
+    db.collection('users').find({}),
+    args
+  );
+}
+```
+
+Optionally give it a mapper function:
+
+```js
+async resolve(obj, { ...args }) {
+  return await connectionFromMongoCursor(
+    db.collection('users').find({}),
+    args,
+    (user) => Object.assign(user, { id: user._id })
+  );
+}
+```
+
+### Example
+
 ```js
 // ...
 import connectionFromMongoCursor from 'relay-mongodb-connection';

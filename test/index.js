@@ -562,6 +562,45 @@ describe('connectionFromArray()', () => {
     });
   });
 
+  describe('mapping', () => {
+    it('uses mapper function if supplied', async () => {
+      const mapper = (doc) => Object.assign({}, doc, {
+        number: doc.letter.charCodeAt(0),
+      });
+      const c = await connectionFromMongoCursor(findAll, {}, mapper);
+      expect(c).to.deep.equal({
+        edges: [
+          {
+            node: { letter: 'A', _id: 'letter_A', number: 65 },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246MA==',
+          },
+          {
+            node: { letter: 'B', _id: 'letter_B', number: 66 },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246MQ==',
+          },
+          {
+            node: { letter: 'C', _id: 'letter_C', number: 67 },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246Mg==',
+          },
+          {
+            node: { letter: 'D', _id: 'letter_D', number: 68 },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246Mw==',
+          },
+          {
+            node: { letter: 'E', _id: 'letter_E', number: 69 },
+            cursor: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
+          },
+        ],
+        pageInfo: {
+          startCursor: 'bW9uZ29kYmNvbm5lY3Rpb246MA==',
+          endCursor: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
+          hasPreviousPage: false,
+          hasNextPage: false,
+        },
+      });
+    });
+  });
+
   // describe('cursorForObjectInConnection()', () => {
   //   it('returns an edge\'s cursor, given a mongodb cursor and a member object', () => {
   //     // const letterBCursor = cursorForObjectInConnection(l)

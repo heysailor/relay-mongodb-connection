@@ -35,7 +35,7 @@ export function offsetToCursor(offset) {
  * object for use in GraphQL. It uses array offsets as pagination, so pagiantion
  * will work only if the data set is satic.
  */
-export default async function connectionFromMongoCursor(inMongoCursor, args = {}) {
+export default async function connectionFromMongoCursor(inMongoCursor, args = {}, mapper) {
   const mongodbCursor = inMongoCursor.clone();
   const { after, before, first, last } = args;
   const count = await mongodbCursor.count();
@@ -60,7 +60,12 @@ export default async function connectionFromMongoCursor(inMongoCursor, args = {}
   mongodbCursor.limit(limit);
 
   // Short circuit if limit is 0; in that case, mongodb doesn't limit at all
-  const slice = limit === 0 ? [] : await mongodbCursor.toArray();
+  let slice = limit === 0 ? [] : await mongodbCursor.toArray();
+
+  // If we have a mapper function, map it!
+  if (typeof mapper === 'function') {
+    slice = slice.map(mapper);
+  }
 
   const edges = slice.map((value, index) => ({
     cursor: offsetToCursor(startOffset + index),
