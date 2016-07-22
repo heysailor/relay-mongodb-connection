@@ -10,7 +10,7 @@
   "scripts": {
     "compile": "babel src --out-dir lib",
     "prepublish": "npm run compile",
-    "test": "mocha test/**/*.test.js --compilers js:babel-core/register",
+    "test": "mocha test/**/*.test.js --compilers js:babel-register",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- test/**/*.test.js --compilers js:babel-core/register --reporter spec",
     "test-travis": "npm run test-cov"
   },
@@ -24,12 +24,12 @@
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.11.4",
-    "babel-core": "^6.11.4",
     "babel-eslint": "^6.1.2",
     "babel-plugin-transform-export-extensions": "^6.8.0",
     "babel-plugin-transform-runtime": "^6.9.0",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-stage-3": "^6.11.0",
+    "babel-register": "^6.9.0",
     "chai": "^3.4.1",
     "coveralls": "^2.11.4",
     "eslint": "^1.9.0",
