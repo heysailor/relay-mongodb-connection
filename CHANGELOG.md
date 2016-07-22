@@ -1,3 +1,12 @@
+<a name="2.0.0"></a>
+## 2.0.0 (2016-07-22)
+
+
+#### Features
+
+* **mongoose:** Add support for Mongoose (#2). Thanks, [papigers](https://github.com/papigers)!
+
+
 <a name="1.0.0"></a>
 ## 1.0.0 (2015-11-16)
 

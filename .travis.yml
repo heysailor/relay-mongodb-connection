@@ -6,7 +6,7 @@ node_js:
 services:
   - mongodb
 env:
-  - MONGO_CONNECTION_STRING="mongodb://localhost/mongoconnection"
+  - MONGO_URL="mongodb://localhost/mongoconnection"
 before_script:
   - sleep 15
 script: "npm run test-travis"
