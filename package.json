@@ -21,6 +21,9 @@
     "mongoose"
   ],
   "author": "Mikael Berg",
+  "contributors": [
+    { "name": "papigers" }
+  ],
   "license": "MIT",
   "devDependencies": {
     "babel-cli": "^6.11.4",
