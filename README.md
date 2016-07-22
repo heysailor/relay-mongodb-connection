@@ -12,12 +12,16 @@ npm install --save relay-mongodb-connection
 
 Give it a cursor from [mongodb](https://www.npmjs.com/package/mongodb), and it handles pagination int he same way [graphql-relay](https://github.com/graphql/graphql-relay-js/blob/master/src/connection/arrayconnection.js) does for arrays.
 
-`import connectionFromMongoCursor from 'relay-mongodb-connection';`
+```js
+import connectionFromMongoCursor from 'relay-mongodb-connection';
+```
 
 Now also supports [mongoose](http://mongoosejs.com/index.html)'s querys and aggregations.
 
-`import { connectionFromMongooseQuery } from 'relay-mongodb-connection';`
-`import { connectionFromMongooseAggregate } from 'relay-mongodb-connection';`
+```js
+import { connectionFromMongooseQuery } from 'relay-mongodb-connection';
+import { connectionFromMongooseAggregate } from 'relay-mongodb-connection';
+```
 
 ### At a glance
 
