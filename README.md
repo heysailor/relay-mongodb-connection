@@ -16,7 +16,7 @@ Give it a cursor from [mongodb](https://www.npmjs.com/package/mongodb), and it h
 import connectionFromMongoCursor from 'relay-mongodb-connection';
 ```
 
-Now also supports [mongoose](http://mongoosejs.com/index.html)'s querys and aggregations.
+Also supports [mongoose](http://mongoosejs.com/index.html)'s querys and aggregations.
 
 ```js
 import { connectionFromMongooseQuery } from 'relay-mongodb-connection';
