@@ -1,6 +1,6 @@
 import {
   getOffsetsFromArgs,
-  getConnectionFromSlice
+  getConnectionFromSlice,
 } from './utils';
 
 /**
@@ -19,8 +19,7 @@ export default async function connectionFromMongoCursor(inMongoCursor, args = {}
   mongodbCursor.limit(limit);
 
   // Short circuit if limit is 0; in that case, mongodb doesn't limit at all
-  let slice = limit === 0 ? [] : await mongodbCursor.toArray();
+  const slice = limit === 0 ? [] : await mongodbCursor.toArray();
 
   return getConnectionFromSlice(slice, mapper, args, count);
 }
-

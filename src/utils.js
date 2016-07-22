@@ -59,14 +59,12 @@ export function getOffsetsFromArgs(args = {}, count) {
   };
 }
 
-export function getConnectionFromSlice(slice, mapper, args, count) {
+export function getConnectionFromSlice(inSlice, mapper, args, count) {
   const { first, last, before, after } = args;
   const { startOffset, endOffset, beforeOffset, afterOffset } = getOffsetsFromArgs(args, count);
 
   // If we have a mapper function, map it!
-  if (typeof mapper === 'function') {
-    slice = slice.map(mapper);
-  }
+  const slice = typeof mapper === 'function' ? inSlice.map(mapper) : inSlice;
 
   const edges = slice.map((value, index) => ({
     cursor: offsetToCursor(startOffset + index),

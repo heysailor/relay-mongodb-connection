@@ -1,6 +1,6 @@
 import {
   getOffsetsFromArgs,
-  getConnectionFromSlice
+  getConnectionFromSlice,
 } from './utils';
 
 export default async function connectionFromMongooseQuery(query, args = {}, mapper) {
@@ -18,8 +18,7 @@ export default async function connectionFromMongooseQuery(query, args = {}, mapp
   let slice;
   if (limit === 0) {
     slice = [];
-  }
-  else {
+  } else {
     const res = await mongooseQuery.find();
     slice = res;
   }

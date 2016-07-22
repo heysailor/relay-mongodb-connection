@@ -1,6 +1,6 @@
 import {
   getOffsetsFromArgs,
-  getConnectionFromSlice
+  getConnectionFromSlice,
 } from './utils';
 
 function cloneAggregation(aggr) {
