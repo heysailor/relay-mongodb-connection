@@ -102,7 +102,7 @@ See [CHANGELOG.md](CHANGELOG.md)
 Set a MongoDB connection string as environment variable:
 
 ```sh
-export MONGO_CONNECTION_STRING=mongodb://192.168.99.100/mongodbconnection
+export MONGO_URL=mongodb://192.168.99.100/mongodbconnection
 ```
 
 Then run tests

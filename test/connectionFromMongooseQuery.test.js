@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { connectionFromMongooseQuery } from '../index';
+import connectionFromMongooseQuery from '../src/connectionFromMongooseQuery';
 import { connectMongoose } from './db';
 import mongoose from 'mongoose';
 

@@ -17,11 +17,7 @@ export default async function connectionFromMongooseAggregate(aggr, args = {}, m
   const countArr = await countAggr.group({ _id: null, count: { $sum: 1 } });
   const count = countArr.length > 0 && countArr[0].count ? countArr[0].count : 0;
 
-  const offsets = getOffsetsFromArgs(args, count);
-  const {
-    skip,
-    limit
-  } = offsets;
+  const { skip, limit } = getOffsetsFromArgs(args, count);
 
   /*
    * Mongoose Aggregate doesn't accept negative limit as well as Query

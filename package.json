@@ -8,7 +8,7 @@
     "url": "https://github.com/mikberg/relay-mongodb-connection.git"
   },
   "scripts": {
-    "compile": "webpack --colors --progress -p",
+    "compile": "babel src --out-dir lib",
     "prepublish": "npm run compile",
     "test": "mocha test/**/*.test.js --compilers js:babel-core/register",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- test/**/*.test.js --compilers js:babel-core/register --reporter spec",
@@ -24,10 +24,10 @@
   "license": "MIT",
   "devDependencies": {
     "babel": "^5.8.34",
-    "babel-core": "^5.8.38",
+    "babel-core": "^5.8.34",
     "babel-eslint": "^4.1.5",
-    "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.9.0",
+    "babel-preset-stage-0": "^6.5.0",
     "chai": "^3.4.1",
     "coveralls": "^2.11.4",
     "eslint": "^1.9.0",
@@ -35,7 +35,6 @@
     "istanbul": "^0.4.0",
     "mocha": "^2.3.3",
     "mongodb": "^2.0.48",
-    "mongoose": "^4.5.5",
-    "webpack": "^1.13.1"
+    "mongoose": "^4.5.5"
   }
 }

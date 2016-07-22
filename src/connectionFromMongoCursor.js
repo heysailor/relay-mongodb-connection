@@ -12,12 +12,7 @@ export default async function connectionFromMongoCursor(inMongoCursor, args = {}
   const mongodbCursor = inMongoCursor.clone();
   const count = await mongodbCursor.count();
 
-  const offsets = getOffsetsFromArgs(args, count);
-
-  const {
-    skip,
-    limit
-  } = offsets;
+  const { skip, limit } = getOffsetsFromArgs(args, count);
 
   // If supplied slice is too large, trim it down before mapping over it.
   mongodbCursor.skip(skip);

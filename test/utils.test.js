@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { base64, unbase64 } from '../index';
+import { base64, unbase64 } from '../src/utils';
 
 describe('base64()', () => {
   it('converts ascii to base64', () => {

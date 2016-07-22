@@ -1,7 +1,7 @@
 import { MongoClient } from 'mongodb';
 import mongoose from 'mongoose';
 
-const MONGO_URL = process.env.MONGO_CONNECTION_STRING || 'mongodb://localhost/rmc-test';
+const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost/mongoconnection';
 
 export const connect = async () => {
   return MongoClient.connect(MONGO_URL);

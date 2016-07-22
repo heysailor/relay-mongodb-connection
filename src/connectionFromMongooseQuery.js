@@ -7,14 +7,13 @@ export default async function connectionFromMongooseQuery(query, args = {}, mapp
   const mongooseQuery = query;
   const count = await mongooseQuery.count();
 
-  const offsets = getOffsetsFromArgs(args, count);
-  const {
-    skip,
-    limit
-  } = offsets;
+  const { skip, limit } = getOffsetsFromArgs(args, count);
 
   mongooseQuery.skip(skip);
   mongooseQuery.limit(limit);
+
+  // Convert all Mongoose documents to objects
+  mongooseQuery.lean();
 
   let slice;
   if (limit === 0) {
@@ -24,9 +23,6 @@ export default async function connectionFromMongooseQuery(query, args = {}, mapp
     const res = await mongooseQuery.find();
     slice = res;
   }
-
-  // Convert all Mongoose documents to objects;
-  slice = slice.map(d => d.toObject());
 
   return getConnectionFromSlice(slice, mapper, args, count);
 }
