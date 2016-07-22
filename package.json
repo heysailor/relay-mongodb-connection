@@ -3,34 +3,43 @@
   "version": "1.0.0",
   "description": "MongoDB connection for Relay",
   "main": "lib/index.js",
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/mikberg/relay-mongodb-connection.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mikberg/relay-mongodb-connection.git"
   },
   "scripts": {
-    "compile": "mkdir -p lib && babel index.js --out-file lib/index.js",
+    "compile": "babel src --out-dir lib",
     "prepublish": "npm run compile",
-    "test": "mocha --compilers js:babel-core/register",
-    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --reporter spec",
+    "test": "mocha test/**/*.test.js --compilers js:babel-register",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- test/**/*.test.js --compilers js:babel-core/register --reporter spec",
     "test-travis": "npm run test-cov"
   },
   "keywords": [
     "relay",
     "graphql",
-    "mongodb"
+    "mongodb",
+    "mongoose"
   ],
   "author": "Mikael Berg",
+  "contributors": [
+    { "name": "papigers" }
+  ],
   "license": "MIT",
   "devDependencies": {
-    "babel": "^5.8.34",
-    "babel-core": "^5.8.34",
-    "babel-eslint": "^4.1.5",
+    "babel-cli": "^6.11.4",
+    "babel-eslint": "^6.1.2",
+    "babel-plugin-transform-export-extensions": "^6.8.0",
+    "babel-plugin-transform-runtime": "^6.9.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-stage-3": "^6.11.0",
+    "babel-register": "^6.9.0",
     "chai": "^3.4.1",
     "coveralls": "^2.11.4",
     "eslint": "^1.9.0",
     "eslint-config-airbnb": "^1.0.0",
     "istanbul": "^0.4.0",
     "mocha": "^2.3.3",
-    "mongodb": "^2.0.48"
+    "mongodb": "^2.0.48",
+    "mongoose": "^4.5.5"
   }
 }
