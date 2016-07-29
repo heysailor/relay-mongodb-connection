@@ -1,5 +1,7 @@
-import { expect } from 'chai';
-import { base64, unbase64 } from '../src/utils';
+var expect = require('chai').expect;
+var utils = require('../src/utils');
+var base64 = utils.base64;
+var unbase64 = utils.unbase64;
 
 describe('base64()', () => {
   it('converts ascii to base64', () => {

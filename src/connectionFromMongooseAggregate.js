@@ -1,35 +1,47 @@
-import {
-  getOffsetsFromArgs,
-  getConnectionFromSlice,
-} from './utils';
+var utils = require('./utils');
+var getOffsetsFromArgs = utils.getOffsetsFromArgs;
+var getConnectionFromSlice = utils.getConnectionFromSlice;
 
-function cloneAggregation(aggr) {
+var cloneAggregation = function cloneAggregation(aggr) {
   /* eslint-disable no-underscore-dangle */
-  const model = aggr._model.model(aggr._model.modelName);
+  var model = aggr._model.model(aggr._model.modelName);
   return model.aggregate(aggr._pipeline);
   /* eslint-enable no-underscore-dangle */
 }
 
-export default async function connectionFromMongooseAggregate(aggr, args = {}, mapper) {
-  const mongooseAggr = cloneAggregation(aggr);
-  const countAggr = cloneAggregation(aggr);
+module.exports = exports = function connectionFromMongooseAggregate(aggr, args, mapper) {
+  args = args === undefined ? {} : args;
+  var mongooseAggr = cloneAggregation(aggr);
+  var countAggr = cloneAggregation(aggr);
+  
+  return new Promise(function (resolve, reject) {
+    countAggr
+      .group({ _id: null, count: { $sum: 1 } })
+      .exec(function (err, countArr) {
+        /* istanbul ignore if  */
+        if (err) {
+          return reject(err);
+        }
 
-  const countArr = await countAggr.group({ _id: null, count: { $sum: 1 } });
-  const count = countArr.length > 0 && countArr[0].count ? countArr[0].count : 0;
+        var count = countArr.length > 0 && countArr[0].count ? countArr[0].count : 0;
 
-  const { skip, limit } = getOffsetsFromArgs(args, count);
+        var mongoPaginationArgs = getOffsetsFromArgs(args, count);
+        var skip = mongoPaginationArgs.skip;
+        var limit = mongoPaginationArgs.limit;
 
-  /*
-   * Mongoose Aggregate doesn't accept negative limit as well as Query
-   */
-  if (limit <= 0) {
-    return getConnectionFromSlice([], mapper, args, count);
-  }
+        if (limit <= 0) {
+          return resolve(getConnectionFromSlice([], mapper, args, count));
+        }
 
-  mongooseAggr.skip(skip);
-  mongooseAggr.limit(limit);
-
-  const slice = await mongooseAggr.exec();
-
-  return getConnectionFromSlice(slice, mapper, args, count);
-}
+        mongooseAggr.skip(skip);
+        mongooseAggr.limit(limit);
+        mongooseAggr.exec(function (err, slice) {
+          /* istanbul ignore if  */
+          if (err) {
+            return reject(err);
+          }
+          return resolve(getConnectionFromSlice(slice, mapper, args, count));
+        })
+    });
+  });
+};
