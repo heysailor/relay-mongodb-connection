@@ -8,8 +8,6 @@
     "url": "https://github.com/mikberg/relay-mongodb-connection.git"
   },
   "scripts": {
-    "compile": "babel src --out-dir lib",
-    "prepublish": "npm run compile",
     "test": "mocha test/**/*.test.js",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- test/**/*.test.js --reporter spec",
     "test-travis": "npm run test-cov"
