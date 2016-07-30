@@ -17,7 +17,7 @@ describe('connectionFromMongoCursor()', function () {
         ['A', 'B', 'C', 'D', 'E'].map(function (letter) {
           return {
             letter: letter, 
-            _id: `letter_${letter}` 
+            _id: 'letter_'+letter
           };
         }),
         done

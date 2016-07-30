@@ -21,7 +21,12 @@ describe('connectionFromMongooseAggregate()', function () {
     connection.once('error', done);
 
     MODEL.insertMany(
-      ['A', 'B', 'C', 'D', 'E'].map(letter => ({ letter, _id: `letter_${letter}` }))
+      ['A', 'B', 'C', 'D', 'E'].map(function(letter) {
+        return {
+          letter: letter,
+          _id: 'letter_'+letter
+        };
+      })
     ).then(function() { 
       done() 
     }).catch(done);
