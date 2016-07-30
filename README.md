@@ -28,8 +28,8 @@ import { connectionFromMongooseAggregate } from 'relay-mongodb-connection';
 Pass it a MongoDB cursor and `connectionArgs`, and it's happy.
 
 ```js
-async resolve(obj, { ...args }) {
-  return await connectionFromMongoCursor(
+resolve(obj, { ...args }) {
+  return connectionFromMongoCursor(
     db.collection('users').find({}),
     args
   );
@@ -39,8 +39,8 @@ async resolve(obj, { ...args }) {
 Optionally give it a mapper function:
 
 ```js
-async resolve(obj, { ...args }) {
-  return await connectionFromMongoCursor(
+resolve(obj, { ...args }) {
+  return connectionFromMongoCursor(
     db.collection('users').find({}),
     args,
     (user) => Object.assign(user, { id: user._id })
@@ -51,8 +51,8 @@ async resolve(obj, { ...args }) {
 And for Mongoose users:
 
 ```js
-async resolve(obj, { ...args }) {
-  return await connectionFromMongooseQuery(
+resolve(obj, { ...args }) {
+  return connectionFromMongooseQuery(
     User.find({}),  // User.aggregate() also works
     args,
     (user) => Object.assign(user, { id: user._id })
@@ -82,9 +82,9 @@ export const GraphQLUser = new GraphQLObjectType({
       args: {
         ...connectionArgs,
       },
-      async resolve(user, { ...args }) {
+      resolve(user, { ...args }) {
         const spaceshipCursor = getSpaceshipsForUser(user._id);
-        return await connectionFromMongoCursor(spaceshipCursor, args);
+        return connectionFromMongoCursor(spaceshipCursor, args);
       }
     }
   }
