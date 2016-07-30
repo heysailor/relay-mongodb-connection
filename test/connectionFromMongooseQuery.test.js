@@ -558,9 +558,12 @@ describe('connectionFromMongooseQuery()', function () {
   describe('mapping', function () {
     it('uses mapper function if supplied', function () {
       var mapper = function (doc) {
-        return Object.assign({}, doc, {
-          number: doc.letter.charCodeAt(0),
+        var newDoc = {};
+        Object.keys(doc).forEach(function (key) {
+          newDoc[key] = doc[key];
         });
+        newDoc.number = doc.letter.charCodeAt(0);
+        return newDoc;
       };
       return expect(connectionFromMongooseQuery(findAll, {}, mapper)).to.eventually.deep.equal({
         edges: [
