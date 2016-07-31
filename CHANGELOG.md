@@ -1,3 +1,9 @@
+<a name="2.1.0"></a>
+## 2.1.0 (2016-07-31)
+
+This release gets rid of Babel and corrects an error in the previous release. Sorry about this!
+
+
 <a name="2.0.0"></a>
 ## 2.0.0 (2016-07-22)
 

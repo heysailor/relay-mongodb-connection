@@ -1,27 +1,30 @@
-import {
-  getOffsetsFromArgs,
-  getConnectionFromSlice,
-} from './utils';
+'use strict';
 
-export default async function connectionFromMongooseQuery(query, args = {}, mapper) {
-  const mongooseQuery = query;
-  const count = await mongooseQuery.count();
+var utils = require('./utils');
+var getOffsetsFromArgs = utils.getOffsetsFromArgs;
+var getConnectionFromSlice = utils.getConnectionFromSlice;
 
-  const { skip, limit } = getOffsetsFromArgs(args, count);
+function connectionFromMongooseQuery(query, inArgs, mapper) {
+  var args = inArgs || {};
 
-  mongooseQuery.skip(skip);
-  mongooseQuery.limit(limit);
+  return query.count()
+    .then(function countPromise(count) {
+      var pagination = getOffsetsFromArgs(args, count);
 
-  // Convert all Mongoose documents to objects
-  mongooseQuery.lean();
+      if (pagination.limit === 0) {
+        return getConnectionFromSlice([], mapper, args, count);
+      }
 
-  let slice;
-  if (limit === 0) {
-    slice = [];
-  } else {
-    const res = await mongooseQuery.find();
-    slice = res;
-  }
+      query.skip(pagination.skip);
+      query.limit(pagination.limit);
 
-  return getConnectionFromSlice(slice, mapper, args, count);
+      // Convert all Mongoose documents to objects
+      query.lean();
+
+      return query.find().then(function fromSlice(slice) {
+        return getConnectionFromSlice(slice, mapper, args, count);
+      });
+    });
 }
+
+module.exports = connectionFromMongooseQuery;

@@ -1,14 +1,16 @@
-import { expect } from 'chai';
+import test from 'ava';
 import { base64, unbase64 } from '../src/utils';
 
-describe('base64()', () => {
-  it('converts ascii to base64', () => {
-    expect(base64('sunny weather')).to.equal('c3Vubnkgd2VhdGhlcg==');
-  });
+test('base64 converts ascii to base64', t => {
+  t.is(
+    base64('sunny weather'),
+    'c3Vubnkgd2VhdGhlcg=='
+  );
 });
 
-describe('unbase64()', () => {
-  it('converts base64 to ascii', () => {
-    expect(unbase64('c3Vubnkgd2VhdGhlcg==')).to.equal('sunny weather');
-  });
+test('unbase64 converts base64 to ascii', t => {
+  t.is(
+    unbase64('c3Vubnkgd2VhdGhlcg=='),
+    'sunny weather'
+  );
 });
