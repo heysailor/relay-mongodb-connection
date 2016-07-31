@@ -1,38 +1,31 @@
+'use strict';
+
 var utils = require('./utils');
 var getOffsetsFromArgs = utils.getOffsetsFromArgs;
 var getConnectionFromSlice = utils.getConnectionFromSlice;
 
-module.exports = exports = function connectionFromMongooseQuery(query, args, mapper) {
-  args = args === undefined ? {} : args;
+function connectionFromMongooseQuery(query, inArgs, mapper) {
+  var args = inArgs || {};
   var mongooseQuery = query;
-  return new Promise(function (resolve, reject) {
-    mongooseQuery.count(function (err, count) {
-      /* istanbul ignore if  */
-      if (err) {
-        return reject(err);
+
+  return mongooseQuery.count()
+    .then(function countPromise(count) {
+      var pagination = getOffsetsFromArgs(args, count);
+
+      if (pagination.limit === 0) {
+        return getConnectionFromSlice([], mapper, args, count);
       }
 
-      var mongoPaginationArgs = getOffsetsFromArgs(args, count);
-      var skip = mongoPaginationArgs.skip;
-      var limit = mongoPaginationArgs.limit;
-
-      mongooseQuery.skip(skip);
-      mongooseQuery.limit(limit);
+      mongooseQuery.skip(pagination.skip);
+      mongooseQuery.limit(pagination.limit);
 
       // Convert all Mongoose documents to objects
       mongooseQuery.lean();
-      
-      if(limit === 0) {
-        return resolve(getConnectionFromSlice([], mapper, args, count));
-      }
-      
-      mongooseQuery.find(function (err, slice) {
-        /* istanbul ignore if  */
-        if (err) {
-          return reject(err);
-        }
-        return resolve(getConnectionFromSlice(slice, mapper, args, count));
+
+      return mongooseQuery.find().then(function fromSlice(slice) {
+        return getConnectionFromSlice(slice, mapper, args, count);
       });
     });
-  });
-};
+}
+
+module.exports = connectionFromMongooseQuery;
