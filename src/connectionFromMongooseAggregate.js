@@ -13,7 +13,6 @@ function cloneAggregation(aggr) {
 
 function connectionFromMongooseAggregate(aggr, inArgs, mapper) {
   var args = inArgs || {};
-  var mongooseAggr = cloneAggregation(aggr);
   var countAggr = cloneAggregation(aggr);
 
   return countAggr
@@ -27,10 +26,10 @@ function connectionFromMongooseAggregate(aggr, inArgs, mapper) {
         return getConnectionFromSlice([], mapper, args, count);
       }
 
-      mongooseAggr.skip(pagination.skip);
-      mongooseAggr.limit(pagination.limit);
+      aggr.skip(pagination.skip);
+      aggr.limit(pagination.limit);
 
-      return mongooseAggr.exec()
+      return aggr.exec()
         .then(function fromSlice(slice) {
           return getConnectionFromSlice(slice, mapper, args, count);
         });

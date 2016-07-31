@@ -9,7 +9,7 @@ var getConnectionFromSlice = utils.getConnectionFromSlice;
  * object for use in GraphQL. It uses array offsets as pagination, so pagiantion
  * will work only if the data set is satic.
  */
-module.exports = exports = function connectionFromMongoCursor(inMongoCursor, inArgs, mapper) {
+function connectionFromMongoCursor(inMongoCursor, inArgs, mapper) {
   var args = inArgs || {};
   var mongodbCursor = inMongoCursor.clone();
 
@@ -17,17 +17,19 @@ module.exports = exports = function connectionFromMongoCursor(inMongoCursor, inA
     .then(function countPromise(count) {
       var pagination = getOffsetsFromArgs(args, count);
 
-      // If the supplied slice is too large, trim it down before mapping over it
-      mongodbCursor.skip(pagination.skip);
-      mongodbCursor.limit(pagination.limit);
-
       // Short circuit if limit is 0; in that case, mongodb doesn't limit at all
       if (pagination.limit === 0) {
         return getConnectionFromSlice([], mapper, args, count);
       }
+
+      // If the supplied slice is too large, trim it down before mapping over it
+      mongodbCursor.skip(pagination.skip);
+      mongodbCursor.limit(pagination.limit);
 
       return mongodbCursor.toArray().then(function fromSlice(slice) {
         return getConnectionFromSlice(slice, mapper, args, count);
       });
     });
 }
+
+module.exports = connectionFromMongoCursor;

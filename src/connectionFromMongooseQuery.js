@@ -6,9 +6,8 @@ var getConnectionFromSlice = utils.getConnectionFromSlice;
 
 function connectionFromMongooseQuery(query, inArgs, mapper) {
   var args = inArgs || {};
-  var mongooseQuery = query;
 
-  return mongooseQuery.count()
+  return query.count()
     .then(function countPromise(count) {
       var pagination = getOffsetsFromArgs(args, count);
 
@@ -16,13 +15,13 @@ function connectionFromMongooseQuery(query, inArgs, mapper) {
         return getConnectionFromSlice([], mapper, args, count);
       }
 
-      mongooseQuery.skip(pagination.skip);
-      mongooseQuery.limit(pagination.limit);
+      query.skip(pagination.skip);
+      query.limit(pagination.limit);
 
       // Convert all Mongoose documents to objects
-      mongooseQuery.lean();
+      query.lean();
 
-      return mongooseQuery.find().then(function fromSlice(slice) {
+      return query.find().then(function fromSlice(slice) {
         return getConnectionFromSlice(slice, mapper, args, count);
       });
     });
