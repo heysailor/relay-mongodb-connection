@@ -1,3 +1,5 @@
+'use strict';
+
 const PREFIX = 'mongodbconnection:';
 
 function base64(str) {
