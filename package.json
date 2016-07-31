@@ -11,7 +11,7 @@
     "lint": "eslint src",
     "test": "ava test/*.test.js --serial",
     "test-cov": "nyc ava --serial",
-    "test-travis": "npm run test-cov"
+    "test-travis": "npm run lint && npm run test-cov"
   },
   "keywords": [
     "relay",
