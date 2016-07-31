@@ -9,7 +9,7 @@
   },
   "scripts": {
     "lint": "eslint src",
-    "test": "mocha test/**/*.test.js",
+    "test": "ava ava/*.test.js",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- test/**/*.test.js --reporter spec",
     "test-travis": "npm run test-cov"
   },
@@ -27,6 +27,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "ava": "^0.15.2",
     "chai": "^3.4.1",
     "chai-as-promised": "^5.3.0",
     "coveralls": "^2.11.4",
