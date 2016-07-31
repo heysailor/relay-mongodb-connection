@@ -99,16 +99,8 @@ See [CHANGELOG.md](CHANGELOG.md)
 
 ## Testing
 
-Set a MongoDB connection string as environment variable:
-
 ```sh
-export MONGO_URL=mongodb://192.168.99.100/mongodbconnection
-```
-
-Then run tests
-
-```sh
-npm test
+MONGO_URL=mongodb://192.168.99.100/mongodbconnection npm test
 ```
 
 ## License
