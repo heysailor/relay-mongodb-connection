@@ -1,16 +1,16 @@
-var expect = require('chai').expect;
-var utils = require('../src/utils');
-var base64 = utils.base64;
-var unbase64 = utils.unbase64;
+import test from 'ava';
+import { base64, unbase64 } from '../src/utils';
 
-describe('base64()', function() {
-  it('converts ascii to base64', function() {
-    expect(base64('sunny weather')).to.equal('c3Vubnkgd2VhdGhlcg==');
-  });
+test('base64 converts ascii to base64', t => {
+  t.is(
+    base64('sunny weather'),
+    'c3Vubnkgd2VhdGhlcg=='
+  );
 });
 
-describe('unbase64()', function() {
-  it('converts base64 to ascii', function() {
-    expect(unbase64('c3Vubnkgd2VhdGhlcg==')).to.equal('sunny weather');
-  });
+test('unbase64 converts base64 to ascii', t => {
+  t.is(
+    unbase64('c3Vubnkgd2VhdGhlcg=='),
+    'sunny weather'
+  );
 });

@@ -1,8 +1,8 @@
 language: node_js
 node_js:
-  - "4.1"
-  - "4.0"
-  - "0.12"
+  - "6.0.0"
+  - "5.0.0"
+  - "4.0.0"
 services:
   - mongodb
 env:
@@ -10,4 +10,5 @@ env:
 before_script:
   - sleep 15
 script: "npm run test-travis"
-after_script: "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+after_success:
+    - ./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls

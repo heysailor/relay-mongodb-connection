@@ -1,7 +1,6 @@
 {
   "extends": "airbnb-base/legacy",
   "env": {
-    "node": true,
-    "mocha": true,
+    "node": true
   }
 }
