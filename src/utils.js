@@ -1,6 +1,4 @@
-'use strict';
-
-const PREFIX = 'mongodbconnection:';
+var PREFIX = 'mongodbconnection:';
 
 function base64(str) {
   return new Buffer(str, 'ascii').toString('base64');
@@ -23,10 +21,11 @@ function cursorToOffset(cursor) {
  * be the default.
  */
 function getOffsetWithDefault(cursor, defaultOffset) {
+  var offset;
   if (cursor === undefined) {
     return defaultOffset;
   }
-  const offset = cursorToOffset(cursor);
+  offset = cursorToOffset(cursor);
   return isNaN(offset) ? defaultOffset : offset;
 }
 
@@ -38,17 +37,20 @@ function offsetToCursor(offset) {
 }
 
 function getOffsetsFromArgs(inArgs, count) {
-  const args = inArgs ? inArgs : {};
-  const after = args.after;
-  const before = args.before;
-  const first = args.first;
-  const last = args.last;
+  var skip;
+  var limit;
 
-  const beforeOffset = getOffsetWithDefault(before, count);
-  const afterOffset = getOffsetWithDefault(after, -1);
+  var args = inArgs || {};
+  var after = args.after;
+  var before = args.before;
+  var first = args.first;
+  var last = args.last;
 
-  let startOffset = Math.max(-1, afterOffset) + 1;
-  let endOffset = Math.min(count, beforeOffset);
+  var beforeOffset = getOffsetWithDefault(before, count);
+  var afterOffset = getOffsetWithDefault(after, -1);
+
+  var startOffset = Math.max(-1, afterOffset) + 1;
+  var endOffset = Math.min(count, beforeOffset);
 
   if (first !== undefined) {
     endOffset = Math.min(endOffset, startOffset + first);
@@ -57,8 +59,8 @@ function getOffsetsFromArgs(inArgs, count) {
     startOffset = Math.max(startOffset, endOffset - last);
   }
 
-  const skip = Math.max(startOffset, 0);
-  const limit = endOffset - startOffset;
+  skip = Math.max(startOffset, 0);
+  limit = endOffset - startOffset;
 
   return {
     beforeOffset: beforeOffset,
@@ -66,36 +68,36 @@ function getOffsetsFromArgs(inArgs, count) {
     startOffset: startOffset,
     endOffset: endOffset,
     skip: skip,
-    limit: limit,
+    limit: limit
   };
 }
 
 function getConnectionFromSlice(inSlice, mapper, args, count) {
-  const first = args.first;
-  const last = args.last;
-  const before = args.before;
-  const after = args.after;
+  var first = args.first;
+  var last = args.last;
+  var before = args.before;
+  var after = args.after;
 
-  const offsetsFromArgs = getOffsetsFromArgs(args, count);
-  const startOffset = offsetsFromArgs.startOffset;
-  const endOffset = offsetsFromArgs.endOffset;
-  const beforeOffset = offsetsFromArgs.beforeOffset;
-  const afterOffset = offsetsFromArgs.afterOffset;
+  var offsetsFromArgs = getOffsetsFromArgs(args, count);
+  var startOffset = offsetsFromArgs.startOffset;
+  var endOffset = offsetsFromArgs.endOffset;
+  var beforeOffset = offsetsFromArgs.beforeOffset;
+  var afterOffset = offsetsFromArgs.afterOffset;
 
   // If we have a mapper function, map it!
-  const slice = typeof mapper === 'function' ? inSlice.map(mapper) : inSlice;
+  var slice = typeof mapper === 'function' ? inSlice.map(mapper) : inSlice;
 
-  const edges = slice.map(function mapSliceToEdges(value, index) {
+  var edges = slice.map(function mapSliceToEdges(value, index) {
     return {
       cursor: offsetToCursor(startOffset + index),
-      node: value,
+      node: value
     };
   });
 
-  const firstEdge = edges[0];
-  const lastEdge = edges[edges.length - 1];
-  const lowerBound = after ? afterOffset + 1 : 0;
-  const upperBound = before ? Math.min(beforeOffset, count) : count;
+  var firstEdge = edges[0];
+  var lastEdge = edges[edges.length - 1];
+  var lowerBound = after ? afterOffset + 1 : 0;
+  var upperBound = before ? Math.min(beforeOffset, count) : count;
 
   return {
     edges: edges,
@@ -103,8 +105,8 @@ function getConnectionFromSlice(inSlice, mapper, args, count) {
       startCursor: firstEdge ? firstEdge.cursor : null,
       endCursor: lastEdge ? lastEdge.cursor : null,
       hasPreviousPage: last !== null ? startOffset > lowerBound : false,
-      hasNextPage: first !== null ? endOffset < upperBound : false,
-    },
+      hasNextPage: first !== null ? endOffset < upperBound : false
+    }
   };
 }
 
@@ -115,5 +117,5 @@ module.exports = exports = {
   offsetToCursor: offsetToCursor,
   getOffsetWithDefault: getOffsetWithDefault,
   getOffsetsFromArgs: getOffsetsFromArgs,
-  getConnectionFromSlice: getConnectionFromSlice,
+  getConnectionFromSlice: getConnectionFromSlice
 };
