@@ -100,6 +100,7 @@ function getConnectionFromSlice(inSlice, mapper, args, count) {
   var upperBound = before ? Math.min(beforeOffset, count) : count;
 
   return {
+    totalCount: count,
     edges: edges,
     pageInfo: {
       startCursor: firstEdge ? firstEdge.cursor : null,

@@ -39,6 +39,7 @@ async function resultEqual(t, args, expected) {
 }
 
 test('returns all elements without filters', resultEqual, [], {
+  totalCount: 5,
   edges: [
     {
       node: { letter: 'A', _id: 'letter_A' },
@@ -70,6 +71,7 @@ test('returns all elements without filters', resultEqual, [], {
 });
 
 test('respects a smaller first', resultEqual, [{ first:  2 }], {
+  totalCount: 5,
   edges: [
     {
       node: { letter: 'A', _id: 'letter_A' },
@@ -89,6 +91,7 @@ test('respects a smaller first', resultEqual, [{ first:  2 }], {
 });
 
 test('respects an overly large first', resultEqual, [{ first: 10 }], {
+  totalCount: 5,
   edges: [
     {
       node: { letter: 'A', _id: 'letter_A' },
@@ -120,6 +123,7 @@ test('respects an overly large first', resultEqual, [{ first: 10 }], {
 });
 
 test('respects a smaller last', resultEqual, [{ last: 2 }], {
+  totalCount: 5,
   edges: [
     {
       node: { letter: 'D', _id: 'letter_D' },
@@ -139,6 +143,7 @@ test('respects a smaller last', resultEqual, [{ last: 2 }], {
 });
 
 test('respects an overly large last', resultEqual, [{ last: 10 }], {
+  totalCount: 5,
   edges: [
     {
       node: { letter: 'A', _id: 'letter_A' },
@@ -172,6 +177,7 @@ test('respects an overly large last', resultEqual, [{ last: 10 }], {
 test('respects first and after', resultEqual, [{
   first: 2, after: 'bW9uZ29kYmNvbm5lY3Rpb246MQ==',
 }], {
+  totalCount: 5,
   edges: [
     {
       node: { letter: 'C', _id: 'letter_C' },
@@ -193,6 +199,7 @@ test('respects first and after', resultEqual, [{
 test('respects first and after with long first', resultEqual, [{
   first: 10, after: 'bW9uZ29kYmNvbm5lY3Rpb246MQ==',
 }], {
+  totalCount: 5,
   edges: [
     {
       node: { letter: 'C', _id: 'letter_C' },
@@ -218,6 +225,7 @@ test('respects first and after with long first', resultEqual, [{
 test('respects last and before', resultEqual, [{
   last: 2, before: 'bW9uZ29kYmNvbm5lY3Rpb246Mw==',
 }], {
+  totalCount: 5,
   edges: [
     {
       node: { letter: 'B', _id: 'letter_B' },
@@ -239,6 +247,7 @@ test('respects last and before', resultEqual, [{
 test('respects last and before with long last', resultEqual, [{
   last: 10, before: 'bW9uZ29kYmNvbm5lY3Rpb246Mw==',
 }], {
+  totalCount: 5,
   edges: [
     {
       node: { letter: 'A', _id: 'letter_A' },
@@ -266,6 +275,7 @@ test('respects first and after and before, too few', resultEqual, [{
   after: 'bW9uZ29kYmNvbm5lY3Rpb246MA==',
   before: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
 }], {
+  totalCount: 5,
   edges: [
     {
       node: { letter: 'B', _id: 'letter_B' },
@@ -289,6 +299,7 @@ test('respects first and after and before, too many', resultEqual, [{
   after: 'bW9uZ29kYmNvbm5lY3Rpb246MA==',
   before: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
 }], {
+  totalCount: 5,
   edges: [
     {
       node: { letter: 'B', _id: 'letter_B' },
@@ -316,6 +327,7 @@ test('respects first and after and before, exactly right', resultEqual, [{
   after: 'bW9uZ29kYmNvbm5lY3Rpb246MA==',
   before: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
 }], {
+  totalCount: 5,
   edges: [
     {
       node: { letter: 'B', _id: 'letter_B' },
@@ -343,6 +355,7 @@ test('respects last and after and before, too few', resultEqual, [{
   after: 'bW9uZ29kYmNvbm5lY3Rpb246MA==',
   before: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
 }], {
+  totalCount: 5,
   edges: [
     {
       node: { letter: 'C', _id: 'letter_C' },
@@ -366,6 +379,7 @@ test('respects last and after and before, too many', resultEqual, [{
   after: 'bW9uZ29kYmNvbm5lY3Rpb246MA==',
   before: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
 }], {
+  totalCount: 5,
   edges: [
     {
       node: { letter: 'B', _id: 'letter_B' },
@@ -393,6 +407,7 @@ test('respects last and after and before, exactly right', resultEqual, [{
   after: 'bW9uZ29kYmNvbm5lY3Rpb246MA==',
   before: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
 }], {
+  totalCount: 5,
   edges: [
     {
       node: { letter: 'B', _id: 'letter_B' },
@@ -418,6 +433,7 @@ test('respects last and after and before, exactly right', resultEqual, [{
 test('returns no elements if first is 0', resultEqual, [{
   first: 0
 }], {
+  totalCount: 5,
   edges: [],
   pageInfo: {
     startCursor: null,
@@ -431,6 +447,7 @@ test('returns all elements if cursors are invalid', resultEqual, [{
   before: 'invalid',
   after: 'invalid',
 }], {
+  totalCount: 5,
   edges: [
     {
       node: { letter: 'A', _id: 'letter_A' },
@@ -465,6 +482,7 @@ test('returns all elements if cursors are on the outside', resultEqual, [{
   before: 'bW9uZ29kYmNvbm5lY3Rpb246Ng==',
   after: 'bW9uZ29kYmNvbm5lY3Rpb246LTE=',
 }], {
+  totalCount: 5,
   edges: [
     {
       node: { letter: 'A', _id: 'letter_A' },
@@ -499,6 +517,7 @@ test('returns no elements if cursors cross', resultEqual, [{
   before: 'bW9uZ29kYmNvbm5lY3Rpb246Mg==',
   after: 'bW9uZ29kYmNvbm5lY3Rpb246NA==',
 }], {
+  totalCount: 5,
   edges: [],
   pageInfo: {
     startCursor: null,
@@ -511,6 +530,7 @@ test('returns no elements if cursors cross', resultEqual, [{
 test('uses mapper function if supplied', resultEqual, [
   {}, doc => ({ ...doc, number: doc.letter.charCodeAt(0) })
 ], {
+  totalCount: 5,
   edges: [
     {
       node: { letter: 'A', _id: 'letter_A', number: 65 },
