@@ -3,8 +3,10 @@ import { connectionFromMongooseAggregate } from '../src';
 import mongoose from 'mongoose';
 
 const SCHEMA = new mongoose.Schema({
-  letter: String,
-  _id: String,
+    letter: String,
+    _id: String,
+}, {
+    versionKey: false
 });
 
 const MODEL = mongoose.model('aggr_letter', SCHEMA);
