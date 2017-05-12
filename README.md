@@ -10,7 +10,7 @@ npm install --save relay-mongodb-connection
 
 ## Usage
 
-Give it a cursor from [mongodb](https://www.npmjs.com/package/mongodb), and it handles pagination int he same way [graphql-relay](https://github.com/graphql/graphql-relay-js/blob/master/src/connection/arrayconnection.js) does for arrays.
+Give it a cursor from [mongodb](https://www.npmjs.com/package/mongodb), and it handles pagination in the same way [graphql-relay](https://github.com/graphql/graphql-relay-js/blob/master/src/connection/arrayconnection.js) does for arrays.
 
 ```js
 import connectionFromMongoCursor from 'relay-mongodb-connection';
