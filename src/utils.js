@@ -96,8 +96,6 @@ function getConnectionFromSlice(inSlice, mapper, args, count) {
 
   var firstEdge = edges[0];
   var lastEdge = edges[edges.length - 1];
-  var lowerBound = after ? afterOffset + 1 : 0;
-  var upperBound = before ? Math.min(beforeOffset, count) : count;
 
   return {
     totalCount: count,
@@ -105,8 +103,8 @@ function getConnectionFromSlice(inSlice, mapper, args, count) {
     pageInfo: {
       startCursor: firstEdge ? firstEdge.cursor : null,
       endCursor: lastEdge ? lastEdge.cursor : null,
-      hasPreviousPage: last !== null ? startOffset > lowerBound : false,
-      hasNextPage: first !== null ? endOffset < upperBound : false
+      hasPreviousPage: count > 0 && offsetsFromArgs.skip > 0,
+      hasNextPage: (offsetsFromArgs.skip + offsetsFromArgs.limit) < count
     }
   };
 }
